@@ -25,9 +25,14 @@ requires some tweaking to work with the Unisoc, it is not referenced as dependen
 
 ## Installation
 
-Install with pip:
+Install with pip or pipx:
 ```bash
 pip3 install unisoc-unlock
+```
+
+On more recent systems such as Ubuntu 24, pipx is required:
+```bash
+pipx install unisoc-unlock
 ```
 
 ## Usage
