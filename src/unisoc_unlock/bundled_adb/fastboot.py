@@ -188,6 +188,7 @@ class FastbootProtocol(object):
 
     def _Write(self, data, length, progress_callback=None):
         """Sends the data to the device, tracking progress with the callback."""
+        global progress
         if progress_callback:
             progress = self._HandleProgress(length, progress_callback)
             next(progress)
