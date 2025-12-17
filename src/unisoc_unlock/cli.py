@@ -78,7 +78,7 @@ class BootloaderUnlock(BootloaderCmd):
         self.prepare()
 
         print(strings.UNLOCK_INSTRUCTIONS)
-        self.dev._SimpleCommand(
+        self.dev.SimpleCommand(
             b'flashing unlock_bootloader', timeout_ms=60*1000)
 
         print(strings.BOOTLOADER_UNLOCKED)
@@ -91,7 +91,7 @@ class BootloaderLock(BootloaderCmd):
         self.prepare()
 
         print(strings.LOCK_INSTRUCTIONS)
-        self.dev._SimpleCommand(
+        self.dev.SimpleCommand(
             b'flashing lock_bootloader', timeout_ms=60*1000)
 
         print(strings.BOOTLOADER_LOCKED)

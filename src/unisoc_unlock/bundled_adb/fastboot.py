@@ -188,7 +188,6 @@ class FastbootProtocol(object):
 
     def _Write(self, data, length, progress_callback=None):
         """Sends the data to the device, tracking progress with the callback."""
-        global progress
         if progress_callback:
             progress = self._HandleProgress(length, progress_callback)
             next(progress)
@@ -266,7 +265,7 @@ class FastbootCommands(object):
         """Get a generator of UsbHandle for devices available."""
         return common.UsbHandle.FindDevices(DeviceIsAvailable)
 
-    def _SimpleCommand(self, command, arg=None, **kwargs):
+    def SimpleCommand(self, command, arg=None, **kwargs):
         self._protocol.SendCommand(command, arg)
         return self._protocol.HandleSimpleResponses(**kwargs)
 
@@ -337,7 +336,7 @@ class FastbootCommands(object):
         Returns:
           Response to a download request, normally nothing.
         """
-        return self._SimpleCommand(b'flash', arg=partition, info_cb=info_cb,
+        return self.SimpleCommand(b'flash', arg=partition, info_cb=info_cb,
                                    timeout_ms=timeout_ms)
 
     def Erase(self, partition, timeout_ms=None):
@@ -346,7 +345,7 @@ class FastbootCommands(object):
         Args:
           partition: Partition to clear.
         """
-        self._SimpleCommand(b'erase', arg=partition, timeout_ms=timeout_ms)
+        self.SimpleCommand(b'erase', arg=partition, timeout_ms=timeout_ms)
 
     def Getvar(self, var, info_cb=DEFAULT_MESSAGE_CALLBACK):
         """Returns the given variable's definition.
@@ -358,7 +357,7 @@ class FastbootCommands(object):
         Returns:
           Value of var according to the current bootloader.
         """
-        return self._SimpleCommand(b'getvar', arg=var, info_cb=info_cb)
+        return self.SimpleCommand(b'getvar', arg=var, info_cb=info_cb)
 
     def Oem(self, command, timeout_ms=None, info_cb=DEFAULT_MESSAGE_CALLBACK):
         """Executes an OEM command on the device.
@@ -373,12 +372,12 @@ class FastbootCommands(object):
         """
         if not isinstance(command, bytes):
             command = command.encode('utf8')
-        return self._SimpleCommand(
+        return self.SimpleCommand(
             b'oem %s' % command, timeout_ms=timeout_ms, info_cb=info_cb)
 
     def Continue(self):
         """Continues execution past fastboot into the system."""
-        return self._SimpleCommand(b'continue')
+        return self.SimpleCommand(b'continue')
 
     def Reboot(self, target_mode=b'', timeout_ms=None):
         """Reboots the device.
@@ -391,9 +390,9 @@ class FastbootCommands(object):
         Returns:
             Usually the empty string. Depends on the bootloader and the target_mode.
         """
-        return self._SimpleCommand(
+        return self.SimpleCommand(
             b'reboot', arg=target_mode or None, timeout_ms=timeout_ms)
 
     def RebootBootloader(self, timeout_ms=None):
         """Reboots into the bootloader, usually equiv to Reboot('bootloader')."""
-        return self._SimpleCommand(b'reboot-bootloader', timeout_ms=timeout_ms)
+        return self.SimpleCommand(b'reboot-bootloader', timeout_ms=timeout_ms)
