@@ -82,6 +82,48 @@ Use one of these workarounds:
 
 Your device is probably not supported. See also [Disclaimer](#disclaimer)
 
+## Development / Formatting
+
+To keep a consistent code style we use Black.
+
+1. Create and activate a virtual environment (PowerShell):
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+2. Install development tools:
+
+```powershell
+python -m pip install --upgrade pip
+python -m pip install -r dev-requirements.txt
+```
+
+3. Install the pre-commit hooks and run them on all files now:
+
+```powershell
+pre-commit install
+pre-commit run --all-files
+```
+
+4. Manually run Black to format the repository:
+
+```powershell
+python -m black .
+```
+
+5. CI-friendly check (non-modifying):
+
+```powershell
+python -m black --check .
+```
+
+Notes:
+
+- The Black configuration is stored in `pyproject.toml`.
+- The repository includes `.pre-commit-config.yaml` which runs Black on commit. We pin Black in `dev-requirements.txt` and in the pre-commit config for reproducibility.
+
 ## References
 
 [0] https://github.com/turtleletortue/turtleletortue.github.io

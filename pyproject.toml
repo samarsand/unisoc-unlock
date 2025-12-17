@@ -22,3 +22,6 @@ dependencies = [
 [project.scripts]
 unisoc_unlock = "unisoc_unlock.cli:main"
 
+[tool.black]
+line-length = 88
+target-version = ["py36"]
