@@ -1,0 +1,5 @@
+[settings]
+exclude =
+    ^.*\.venv(/|\\).*$
+    ^.*__pycache__(/|\\).*$
+    ^.*\.pyc$
