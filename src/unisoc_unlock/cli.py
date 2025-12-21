@@ -24,8 +24,8 @@ class OemIdToken:
 
     # Gets passed a FastbootMessage object
     def __call__(self, fb_msg):
-        if self.n == 1 and self.id is None and fb_msg.header == b'INFO':
-            self.id = fb_msg.message.decode('utf-8').strip()
+        if self.n == 1 and self.id is None and fb_msg.header == b"INFO":
+            self.id = fb_msg.message.decode("utf-8").strip()
 
         self.n += 1
 
@@ -54,18 +54,15 @@ class BootloaderCmd:
 
         oem_id = OemIdToken()
         try:
-            self.dev.Oem('get_identifier_token', info_cb=oem_id)
+            self.dev.Oem("get_identifier_token", info_cb=oem_id)
         except Exception as e:
             print(strings.FASTBOOT_ERROR.format(str(e)))
             sys.exit(1)
 
         print(strings.OEM_ID.format(oem_id.id))
-        token_id = oem_id.id.ljust(2 * 64, '0')
+        token_id = oem_id.id.ljust(2 * 64, "0")
         id_raw = base64.b16decode(token_id, casefold=True)
-        pemfile = os.path.join(
-            os.path.dirname(__file__),
-            'rsa4096_vbmeta.pem'
-        )
+        pemfile = os.path.join(os.path.dirname(__file__), "rsa4096_vbmeta.pem")
         sgn = self.sign_token(id_raw, pemfile)
 
         print(strings.DOWNLOAD_SIGNATURE)
@@ -78,8 +75,7 @@ class BootloaderUnlock(BootloaderCmd):
         self.prepare()
 
         print(strings.UNLOCK_INSTRUCTIONS)
-        self.dev.SimpleCommand(
-            b'flashing unlock_bootloader', timeout_ms=60*1000)
+        self.dev.SimpleCommand(b"flashing unlock_bootloader", timeout_ms=60 * 1000)
 
         print(strings.BOOTLOADER_UNLOCKED)
         self.dev.Close()
@@ -91,33 +87,26 @@ class BootloaderLock(BootloaderCmd):
         self.prepare()
 
         print(strings.LOCK_INSTRUCTIONS)
-        self.dev.SimpleCommand(
-            b'flashing lock_bootloader', timeout_ms=60*1000)
+        self.dev.SimpleCommand(b"flashing lock_bootloader", timeout_ms=60 * 1000)
 
         print(strings.BOOTLOADER_LOCKED)
         self.dev.Close()
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description=strings.DESCRIPTION
+    parser = argparse.ArgumentParser(description=strings.DESCRIPTION)
+    parser.add_argument("command", type=str, nargs="?", help=strings.COMMAND_HELP)
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="%(prog)s " + importlib.metadata.version("unisoc-unlock"),
     )
-    parser.add_argument('command',
-                        type=str,
-                        nargs='?',
-                        help=strings.COMMAND_HELP
-                        )
-    parser.add_argument('--version',
-                        action='version',
-                        version='%(prog)s ' +
-                        importlib.metadata.version('unisoc-unlock')
-                        )
 
     args = parser.parse_args()
 
-    if args.command == 'lock':
+    if args.command == "lock":
         cmd = BootloaderLock()
-    elif args.command in ['unlock', None]:
+    elif args.command in ["unlock", None]:
         cmd = BootloaderUnlock()
     else:
         print(strings.UNKNOWN_COMMAND.format(args.command), file=sys.stderr)
@@ -126,5 +115,5 @@ def main():
     cmd()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

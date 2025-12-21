@@ -1,15 +1,14 @@
-
-NO_DEVICE_FOUND = 'No device found: {}'
-COULD_NOT_CONNECT = 'Could not connect to device: {}'
-FASTBOOT_ERROR = 'Fastboot error: {}'
-OEM_ID = 'OEM ID: {}'
-DOWNLOAD_SIGNATURE = 'Download signature'
-PREPARING_TO_UNLOCK = 'Preparing to unlock the bootloader'
-UNLOCK_INSTRUCTIONS = 'Unlock bootloader, pls follow instructions on device screen'
-BOOTLOADER_UNLOCKED = 'Bootloader unlocked.'
-PREPARING_TO_LOCK = 'Preparing to lock the bootloader'
-LOCK_INSTRUCTIONS = 'Lock bootloader, pls follow instructions on device screen'
-BOOTLOADER_LOCKED = 'Bootloader locked.'
-DESCRIPTION = 'Lock/Unlock tool for Spreadtrum/Unisoc bootloader'
-COMMAND_HELP = 'Command (lock|unlock), default=unlock'
-UNKNOWN_COMMAND = 'Unknown command {}'
+NO_DEVICE_FOUND = "No device found: {}"
+COULD_NOT_CONNECT = "Could not connect to device: {}"
+FASTBOOT_ERROR = "Fastboot error: {}"
+OEM_ID = "OEM ID: {}"
+DOWNLOAD_SIGNATURE = "Download signature"
+PREPARING_TO_UNLOCK = "Preparing to unlock the bootloader"
+UNLOCK_INSTRUCTIONS = "Unlock bootloader, pls follow instructions on device screen"
+BOOTLOADER_UNLOCKED = "Bootloader unlocked."
+PREPARING_TO_LOCK = "Preparing to lock the bootloader"
+LOCK_INSTRUCTIONS = "Lock bootloader, pls follow instructions on device screen"
+BOOTLOADER_LOCKED = "Bootloader locked."
+DESCRIPTION = "Lock/Unlock tool for Spreadtrum/Unisoc bootloader"
+COMMAND_HELP = "Command (lock|unlock), default=unlock"
+UNKNOWN_COMMAND = "Unknown command {}"

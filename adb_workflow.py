@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-import datetime
-import hashlib
-import os
 import subprocess
+import hashlib
+import datetime
+import os
 
 LOG_DIR = r"C:\SDsave"
 LOG_FILE = os.path.join(LOG_DIR, "SDK_Audit.log")
 
 os.makedirs(LOG_DIR, exist_ok=True)
 
+
 def timestamp():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 
 def log_entry(message):
     entry = f"{timestamp()} | {message}"
@@ -18,12 +20,14 @@ def log_entry(message):
     with open(LOG_FILE, "a") as f:
         f.write(entry + "\n")
 
+
 def sha256_file(path):
     h = hashlib.sha256()
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
             h.update(chunk)
     return h.hexdigest()
+
 
 def adb_command(args, device=None):
     cmd = ["adb"]
@@ -35,6 +39,7 @@ def adb_command(args, device=None):
     except subprocess.CalledProcessError as e:
         log_entry(f"ADB error: {e.output.decode()}")
         return None
+
 
 def main():
     log_entry("ADB workflow started")
@@ -62,6 +67,7 @@ def main():
     log_entry(f"Audit log SHA256: {digest}")
 
     log_entry("ADB workflow completed")
+
 
 if __name__ == "__main__":
     main()
